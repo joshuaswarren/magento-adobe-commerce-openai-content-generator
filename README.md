@@ -26,6 +26,22 @@ The core is designed with potential future integrations in mind, allowing for ea
 composer require joshuaswarren/magento-adobe-commerce-openai-content-generator
 bin/magento s:up
 ```
+If you have problem with instalation, add the following repositoreis to your composer.json file
+
+```json
+{
+    "type": "vcs",
+    "url": "git@github.com:joshuaswarren/magento-adobe-commerce-openai-content-generator.git"
+},
+{
+    "type": "vcs",
+    "url": "git@github.com:creatuity/magento2-ai-content-generator-core.git"
+},
+{
+    "type": "vcs",
+    "url": "git@github.com:creatuity/magento2-ai-content-generator-mass-actions.git"
+}
+```
 
 ## User Guide
 
