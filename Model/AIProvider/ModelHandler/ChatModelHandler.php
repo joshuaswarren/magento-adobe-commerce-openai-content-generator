@@ -58,6 +58,10 @@ class ChatModelHandler implements ModelHandlerInterface
 
     public function isApplicable(string $model): bool
     {
-        return in_array($model, $this->supportedModels, true);
+        if (in_array($model, $this->supportedModels, true)) {
+            return true;
+        }
+
+        return !str_starts_with($model, 'text-davinci-');
     }
 }

@@ -10,13 +10,17 @@ This is a personal fork of the original Creatuity OpenAI content generator modul
 ## What This Fork Updates
 
 - Rebrands the package for the Magento/Adobe Commerce OpenAI Content Generator relaunch.
-- Updates the default OpenAI model from `gpt-3.5-turbo` to `gpt-4o-mini`.
+- Updates the default OpenAI model from `gpt-3.5-turbo` to `gpt-5.4-mini`.
 - Removes old `text-davinci-*` completion models from the admin model selector.
-- Keeps `gpt-4o-mini`, `gpt-4o`, and `gpt-4` as selectable Chat Completions models.
+- Adds current GPT-5.4/GPT-5.5 family models to the built-in selector.
+- Allows admins to enable model-list fetching from OpenAI's `/v1/models` endpoint.
+- Allows admins to enter a custom model ID for snapshots, fine-tuned models, or newly released models.
 - Keeps the OpenAI API key in Magento's encrypted configuration field.
 - Expands the Composer PHP constraint through PHP 8.3.
 
 OpenAI currently recommends the Responses API for new applications, but this module still uses Chat Completions because the existing Magento integration and dependency library are built around that endpoint. A future larger release should move the provider layer to the Responses API after the core and mass-action modules are updated together.
+
+The default model is `gpt-5.4-mini`, which is current, supports Chat Completions, and is better suited to high-volume catalog content generation than the older `gpt-4o-mini` default.
 
 ## Installation
 
@@ -59,9 +63,27 @@ Configure:
 - `Description Attributes`
 - `Meta-tags Attributes`
 - `OpenAI API Key`
+- `Fetch Model List From API`
 - `Model Name`
+- `Custom Model ID`
 
 The OpenAI API key is stored using Magento's encrypted config backend. Do not commit environment-specific API keys to this repository.
+
+### Model Selection
+
+The built-in model selector includes:
+
+- `gpt-5.4-mini`
+- `gpt-5.5`
+- `gpt-5.4`
+- `gpt-5.4-nano`
+- `gpt-4o`
+- `gpt-4o-mini`
+- `gpt-4`
+
+When `Fetch Model List From API` is enabled, the selector is merged with likely Chat Completions model IDs returned by OpenAI's `/v1/models` endpoint. OpenAI's model-list endpoint only returns basic metadata, not endpoint capability metadata, so the module filters obvious non-chat models but still lets OpenAI validate the final model at generation time.
+
+To use a model that is not in the selector, choose `Custom model ID` and enter the exact model ID in `Custom Model ID`.
 
 ## Usage
 

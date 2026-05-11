@@ -41,7 +41,7 @@ class ChatModelHandlerTest extends TestCase
 
     public function testCallWrongModel(): void
     {
-        $model = 'unsupported model name';
+        $model = 'text-davinci-003';
         $this->expectException(UnsupportedOpenAiModelException::class);
         $this->expectExceptionMessage((string) __('Model %1 is unsupported by %2', $model, ChatModelHandler::class));
         $this->getObject()->call($model, $this->mockRequest($this->parseMsg($this->getMessage()), []));

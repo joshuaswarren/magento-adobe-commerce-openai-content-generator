@@ -36,4 +36,61 @@ class OpenAiConfigTest extends TestCase
         $this->scopeConfig->expects($this->once())->method('getValue')->with(OpenAiConfig::XML_PATH_OPENAI_MODEL_NAME)->willReturn($model);
         $this->assertSame($model, (new OpenAiConfig($this->scopeConfig, $this->encryptor))->getModelName());
     }
+
+    public function testGetModelNameFallsBackToDefault(): void
+    {
+        $this->scopeConfig->expects($this->once())
+            ->method('getValue')
+            ->with(OpenAiConfig::XML_PATH_OPENAI_MODEL_NAME)
+            ->willReturn('');
+
+        $this->assertSame(
+            OpenAiConfig::DEFAULT_MODEL,
+            (new OpenAiConfig($this->scopeConfig, $this->encryptor))->getModelName()
+        );
+    }
+
+    public function testGetModelNameUsesCustomModel(): void
+    {
+        $customModel = 'ft:gpt-5.4-mini:example:catalog-copy:abc123';
+        $this->scopeConfig->expects($this->exactly(2))
+            ->method('getValue')
+            ->willReturnCallback(function (string $path) use ($customModel) {
+                return match ($path) {
+                    OpenAiConfig::XML_PATH_OPENAI_MODEL_NAME => OpenAiConfig::CUSTOM_MODEL_VALUE,
+                    OpenAiConfig::XML_PATH_OPENAI_CUSTOM_MODEL_NAME => $customModel,
+                    default => '',
+                };
+            });
+
+        $this->assertSame($customModel, (new OpenAiConfig($this->scopeConfig, $this->encryptor))->getModelName());
+    }
+
+    public function testGetModelNameFallsBackWhenCustomModelIsEmpty(): void
+    {
+        $this->scopeConfig->expects($this->exactly(2))
+            ->method('getValue')
+            ->willReturnCallback(function (string $path) {
+                return match ($path) {
+                    OpenAiConfig::XML_PATH_OPENAI_MODEL_NAME => OpenAiConfig::CUSTOM_MODEL_VALUE,
+                    OpenAiConfig::XML_PATH_OPENAI_CUSTOM_MODEL_NAME => '',
+                    default => '',
+                };
+            });
+
+        $this->assertSame(
+            OpenAiConfig::DEFAULT_MODEL,
+            (new OpenAiConfig($this->scopeConfig, $this->encryptor))->getModelName()
+        );
+    }
+
+    public function testShouldFetchModelList(): void
+    {
+        $this->scopeConfig->expects($this->once())
+            ->method('isSetFlag')
+            ->with(OpenAiConfig::XML_PATH_OPENAI_FETCH_MODEL_LIST)
+            ->willReturn(true);
+
+        $this->assertTrue((new OpenAiConfig($this->scopeConfig, $this->encryptor))->shouldFetchModelList());
+    }
 }

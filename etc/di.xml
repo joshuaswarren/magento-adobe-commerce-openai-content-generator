@@ -25,10 +25,22 @@
     <type name="Creatuity\AIContentOpenAI\Model\GetModelSettings">
         <arguments>
             <argument name="settings" xsi:type="array">
-                <item name="gpt-4o-mini" xsi:type="array">
-                    <item name="max_length" xsi:type="number">128000</item>
+                <item name="gpt-5.4-mini" xsi:type="array">
+                    <item name="max_length" xsi:type="number">400000</item>
+                </item>
+                <item name="gpt-5.5" xsi:type="array">
+                    <item name="max_length" xsi:type="number">1050000</item>
+                </item>
+                <item name="gpt-5.4" xsi:type="array">
+                    <item name="max_length" xsi:type="number">1050000</item>
+                </item>
+                <item name="gpt-5.4-nano" xsi:type="array">
+                    <item name="max_length" xsi:type="number">400000</item>
                 </item>
                 <item name="gpt-4o" xsi:type="array">
+                    <item name="max_length" xsi:type="number">128000</item>
+                </item>
+                <item name="gpt-4o-mini" xsi:type="array">
                     <item name="max_length" xsi:type="number">128000</item>
                 </item>
                 <item name="gpt-4" xsi:type="array">
@@ -49,8 +61,12 @@
     <type name="Creatuity\AIContentOpenAI\Model\AIProvider\ModelHandler\ChatModelHandler">
          <arguments>
              <argument name="supportedModels" xsi:type="array">
-                 <item name="gpt-4o-mini" xsi:type="string">gpt-4o-mini</item>
+                 <item name="gpt-5.4-mini" xsi:type="string">gpt-5.4-mini</item>
+                 <item name="gpt-5.5" xsi:type="string">gpt-5.5</item>
+                 <item name="gpt-5.4" xsi:type="string">gpt-5.4</item>
+                 <item name="gpt-5.4-nano" xsi:type="string">gpt-5.4-nano</item>
                  <item name="gpt-4o" xsi:type="string">gpt-4o</item>
+                 <item name="gpt-4o-mini" xsi:type="string">gpt-4o-mini</item>
                  <item name="gpt-4" xsi:type="string">gpt-4</item>
              </argument>
              <argument name="promptOptions" xsi:type="array">

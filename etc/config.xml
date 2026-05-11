@@ -7,7 +7,8 @@
                 <aiprovider>openai</aiprovider>
             </general>
             <openai_api>
-                <model_name>gpt-4o-mini</model_name>
+                <model_name>gpt-5.4-mini</model_name>
+                <fetch_model_list>0</fetch_model_list>
             </openai_api>
         </creatuityaicontent>
     </default>

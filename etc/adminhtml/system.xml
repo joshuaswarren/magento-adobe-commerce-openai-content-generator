@@ -9,9 +9,22 @@
                     <label>API Key</label>
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                 </field>
-                <field id="model_name" translate="label" sortOrder="20" type="select" showInStore="0" showInDefault="1" showInWebsite="0" canRestore="1">
+                <field id="fetch_model_list" translate="label comment" sortOrder="20" type="select" showInStore="0" showInDefault="1" showInWebsite="0" canRestore="1">
+                    <label>Fetch Model List From API</label>
+                    <comment>When enabled, the model selector is merged with likely Chat Completions models from OpenAI's /v1/models endpoint. OpenAI only exposes basic model metadata here, so unsupported choices may still be rejected when content is generated.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="model_name" translate="label comment" sortOrder="30" type="select" showInStore="0" showInDefault="1" showInWebsite="0" canRestore="1">
                     <label>Model Name</label>
+                    <comment>Use a built-in model, an API-discovered model, or choose Custom model ID below for snapshots, fine-tuned models, or newly released models.</comment>
                     <source_model>Creatuity\AIContentOpenAI\OptionSource\GetModelsOptionSource</source_model>
+                </field>
+                <field id="custom_model_name" translate="label comment" sortOrder="40" type="text" showInStore="0" showInDefault="1" showInWebsite="0">
+                    <label>Custom Model ID</label>
+                    <comment>Used only when Model Name is set to Custom model ID.</comment>
+                    <depends>
+                        <field id="model_name">__custom__</field>
+                    </depends>
                 </field>
             </group>
         </section>
