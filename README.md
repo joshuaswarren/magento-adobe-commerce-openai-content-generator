@@ -1,115 +1,86 @@
-# Creatuity AI Content Generator Module for Magento
+# Magento/Adobe Commerce OpenAI Content Generator
 
-## Table of Contents
-1. [Overview](#overview)
-2. [Installation](#installation)
-3. [User Guide](#user-guide)
-    - [Configuration](#configuration)
-    - [Short Description](#short-description)
-    - [Description](#description)
-    - [Meta Tags](#meta-tags)
-    - [Mass Actions](#mass-actions)
-4. [Links](#links)
+Magento 2 / Adobe Commerce module for generating product descriptions, short descriptions, meta titles, meta descriptions, and meta keywords from product attributes using OpenAI.
 
-## Overview
-The Creatuity AI Content Generator module for Magento allows for the automated generation of descriptions and metadata for products based on their attributes. By interfacing with OpenAI, product attributes can be utilized to produce compelling content with ease.
+This is a personal fork of the original Creatuity OpenAI content generator module. The PHP namespace and module name are intentionally unchanged for compatibility with existing installs:
 
-This module consists of:
-- [Core Module](https://github.com/creatuity/magento2-ai-content-generator-core)
-- [Mass Actions Module](https://github.com/creatuity/magento2-ai-content-generator-mass-actions)
-- [OpenAI's Integration Module](https://github.com/joshuaswarren/magento-adobe-commerce-openai-content-generator)
+- `Creatuity_AIContentOpenAI`
+- `Creatuity\AIContentOpenAI`
 
-The core is designed with potential future integrations in mind, allowing for easy integration with other AI services.
+## What This Fork Updates
+
+- Rebrands the package for the Magento/Adobe Commerce OpenAI Content Generator relaunch.
+- Updates the default OpenAI model from `gpt-3.5-turbo` to `gpt-4o-mini`.
+- Removes old `text-davinci-*` completion models from the admin model selector.
+- Keeps `gpt-4o-mini`, `gpt-4o`, and `gpt-4` as selectable Chat Completions models.
+- Keeps the OpenAI API key in Magento's encrypted configuration field.
+- Expands the Composer PHP constraint through PHP 8.3.
+
+OpenAI currently recommends the Responses API for new applications, but this module still uses Chat Completions because the existing Magento integration and dependency library are built around that endpoint. A future larger release should move the provider layer to the Responses API after the core and mass-action modules are updated together.
 
 ## Installation
-```bash
-composer require joshuaswarren/magento-adobe-commerce-openai-content-generator
-bin/magento s:up
-```
-If you have problem with instalation, add the following repositoreis to your composer.json file
+
+Until this fork is published to Packagist, install it through a VCS repository entry:
 
 ```json
 {
-    "type": "vcs",
-    "url": "git@github.com:joshuaswarren/magento-adobe-commerce-openai-content-generator.git"
-},
-{
-    "type": "vcs",
-    "url": "git@github.com:creatuity/magento2-ai-content-generator-core.git"
-},
-{
-    "type": "vcs",
-    "url": "git@github.com:creatuity/magento2-ai-content-generator-mass-actions.git"
+    "repositories": {
+        "magento-adobe-commerce-openai-content-generator": {
+            "type": "vcs",
+            "url": "git@github.com:joshuaswarren/magento-adobe-commerce-openai-content-generator.git"
+        },
+        "magento2-ai-content-generator-core": {
+            "type": "vcs",
+            "url": "git@github.com:creatuity/magento2-ai-content-generator-core.git"
+        },
+        "magento2-ai-content-generator-mass-actions": {
+            "type": "vcs",
+            "url": "git@github.com:creatuity/magento2-ai-content-generator-mass-actions.git"
+        }
+    }
 }
 ```
 
-## User Guide
+Then require the package:
 
-### Configuration
-1. Navigate to `Stores → Configuration → Creatuity → AI Content`.
-2. Configure the fields as per your requirement:
-    ![image](https://github.com/joshuaswarren/magento-adobe-commerce-openai-content-generator/assets/1653168/5720949f-169b-4f14-af8f-878608835752)
+```bash
+composer require joshuaswarren/magento-adobe-commerce-openai-content-generator:^0.1
+bin/magento setup:upgrade
+```
 
+## Configuration
 
-    | Configuration Field    | Description | Default Value |
-    |------------------------|-------------|---------------|
-    | Enabled                | Enable/Disable the module | No |
-    | AI Provider            | Choose AI Provider (Only OpenAI currently) | OpenAI |
-    | Description Attributes | Default attributes for description generation | Product Name, Size, Color |
-    | Meta-tags Attributes   | Default attributes for meta-tag generation | Product Name, Description |
-    | OpenAI API Key         | Your OpenAI API Token | - |
-    | Model Name             | OpenAI model for requests. Model determines cost | gpt-3.5-turbo |
+In the Magento admin, go to `Stores > Configuration > Creatuity > AI Content`.
 
+Configure:
 
-Once the module is configured and enabled, you can go to product configuration.
+- `Enabled`
+- `AI Provider`: OpenAI
+- `Description Attributes`
+- `Meta-tags Attributes`
+- `OpenAI API Key`
+- `Model Name`
 
-**NOTE:** You can’t generate any data using the module until product is created
-![image](https://github.com/joshuaswarren/magento-adobe-commerce-openai-content-generator/assets/1653168/9a7d3474-eb98-45a8-a344-3eb5329db1ea)
+The OpenAI API key is stored using Magento's encrypted config backend. Do not commit environment-specific API keys to this repository.
 
-When you create and configure product **(it is strongly recommended to fully configure product attributes first before generating description and meta-tags)** you can go to a proper section where you are able now to click **Generate With AI** button 
+## Usage
 
-The button opens a modal window where you can optionally configure some prompt settings which will be sent to AI model
+After configuring and saving a product, use the `Generate With AI` button in the product edit screen to generate:
 
-Example:
+- short description
+- description
+- meta title
+- meta description
+- meta keywords
 
-![image](https://github.com/joshuaswarren/magento-adobe-commerce-openai-content-generator/assets/1653168/ff906f51-3f9c-4f0b-8205-1fae72097447)
+Mass generation remains available from the product grid through the mass actions module.
 
-Product Attributes values are by default the same as the once selected in configuration. You can change here these selected by default attributes by selecting other attributes that you want to use to generate short description and description for this particular product
+## Related Repositories
 
-### Short Description
-- In the product configuration, navigate to the Content section.
-- Click on "Generate With AI" to open a modal.
-- Here, you can customize the product attributes used for generating content.
-- Generated content appears in the Short Description's textarea.
-- To regenerate content, adjust settings and click "Generate" again.
-- Once satisfied, click "Apply" to move the generated content to the product's Short Description field.
+- Original OpenAI integration: https://github.com/joshuaswarren/magento-adobe-commerce-openai-content-generator
+- Core module: https://github.com/creatuity/magento2-ai-content-generator-core
+- Mass actions module: https://github.com/creatuity/magento2-ai-content-generator-mass-actions
 
-### Description
-This section works similarly to the Short Description section. If you have Page Builder enabled, you'll need to manually copy the generated description and paste it in the desired field as auto-fill is unsupported.
+## License
 
-### Meta Tags
-1. Once the product descriptions are finalized, navigate to the `Search Engine Optimization` section.
-2. Click "Generate With AI" to open a modal.
-3. You can modify the default attributes used for meta-tag generation.
-4. Click "Generate" to get three meta-tag suggestions.
-5. Choose your preferred meta-tag and click "Apply".
-6. Remember to save the product.
-
-### Mass Actions
-For bulk content generation:
-1. On the product grid, select the products you want.
-2. Choose either:
-    - Generate With AI → Description
-    - Generate With AI → Meta-Tags
-3. On the redirected page, generate and save content for products individually using "Generate One By One".
-4. Use "Skip" to bypass a product or "Confirm and Continue" to proceed to the next product.
-5. You can halt the process anytime. Pending products will always be displayed in the admin notifications bar.
-
-## Links
-- [Core Module Repository](https://github.com/creatuity/magento2-ai-content-generator-core)
-- [Mass Actions Module](https://github.com/creatuity/magento2-ai-content-generator-mass-actions)
-- [OpenAI Integration Module Repository](https://github.com/joshuaswarren/magento-adobe-commerce-openai-content-generator)
-
----
-
-For any issues or feedback, please raise a ticket in the respective repository.
+The upstream package declares a proprietary license. Confirm licensing before publishing this fork to Packagist or distributing it outside approved use.

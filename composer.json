@@ -1,10 +1,9 @@
 {
     "name": "joshuaswarren/magento-adobe-commerce-openai-content-generator",
-    "description": "Creatuity OpenAI Content Generator",
-    "version": "0.0.3",
+    "description": "Magento/Adobe Commerce OpenAI Content Generator",
     "type": "magento2-module",
     "license": [
-        "Proprietary"
+        "proprietary"
     ],
     "autoload": {
         "files": [
@@ -18,7 +17,7 @@
         "phpunit/phpunit": "^9"
     },
     "require": {
-        "php": "^8.1",
+        "php": "^8.1 || ^8.2 || ^8.3",
         "orhanerday/open-ai": "^4.8",
         "creatuity/magento2-ai-content-generator-core": "^0.0.3",
         "creatuity/magento2-ai-content-generator-mass-actions": "^0.0.2"
