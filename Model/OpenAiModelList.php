@@ -76,7 +76,10 @@ class OpenAiModelList
         } catch (\Throwable $exception) {
             $this->logger->warning(
                 'Unable to fetch OpenAI model list for admin configuration.',
-                ['exception' => $exception]
+                [
+                    'exception_class' => $exception::class,
+                    'exception_code' => $exception->getCode(),
+                ]
             );
 
             return [];

@@ -70,6 +70,33 @@ class OpenAiModelListTest extends TestCase
         ], $this->getModelList()->getChatModelIds());
     }
 
+    public function testReturnsNoModelsAndLogsSanitizedWarningWhenModelFetchFails(): void
+    {
+        $this->openAiConfig->expects($this->once())->method('shouldFetchModelList')->willReturn(true);
+        $this->openAiConfig->expects($this->once())->method('getOpenAiApiKey')->willReturn('api-key');
+        $this->curl->expects($this->once())->method('setTimeout')->with(5);
+        $this->curl->expects($this->once())->method('setHeaders')->with($this->arrayHasKey('Authorization'));
+        $this->curl->expects($this->once())
+            ->method('get')
+            ->with('https://api.openai.com/v1/models')
+            ->willThrowException(new \RuntimeException('secret api-key'));
+        $this->logger->expects($this->once())
+            ->method('warning')
+            ->with(
+                'Unable to fetch OpenAI model list for admin configuration.',
+                $this->callback(function (array $context): bool {
+                    $encodedContext = json_encode($context, JSON_THROW_ON_ERROR);
+
+                    return ($context['exception_class'] ?? null) === \RuntimeException::class
+                        && array_key_exists('exception_code', $context)
+                        && !array_key_exists('exception', $context)
+                        && !str_contains($encodedContext, 'api-key');
+                })
+            );
+
+        $this->assertSame([], $this->getModelList()->getChatModelIds());
+    }
+
     private function getModelList(): OpenAiModelList
     {
         return new OpenAiModelList(

@@ -22,6 +22,9 @@
         "creatuity/magento2-ai-content-generator-core": "^0.0.3",
         "creatuity/magento2-ai-content-generator-mass-actions": "^0.0.2"
     },
+    "replace": {
+        "joshuaswarren/magento-adobe-commerce-openai-content-generator": "self.version"
+    },
     "repositories": [
         {
             "type": "vcs",
