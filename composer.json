@@ -1,6 +1,6 @@
 {
     "name": "joshuaswarren/magento-adobe-commerce-openai-content-generator",
-    "description": "Magento/Adobe Commerce OpenAI Content Generator",
+    "description": "Adobe Commerce module to generate product descriptions and meta tags using OpenAI",
     "type": "magento2-module",
     "license": [
         "proprietary"
