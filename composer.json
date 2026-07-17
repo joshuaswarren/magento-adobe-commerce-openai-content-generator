@@ -34,5 +34,10 @@
             "type": "vcs",
             "url": "git@github.com:creatuity/magento2-ai-content-generator-mass-actions.git"
         }
+    ],
+    "authors": [
+        {
+            "name": "Joshua Warren"
+        }
     ]
 }
