@@ -106,3 +106,7 @@ Mass generation remains available from the product grid through the mass actions
 ## License
 
 The upstream package declares a proprietary license. Confirm licensing before publishing this fork to Packagist or distributing it outside approved use.
+
+## Contributors
+
+Everyone credited so far: [CONTRIBUTORS.md](CONTRIBUTORS.md).
